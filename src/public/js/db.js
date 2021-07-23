@@ -28,14 +28,14 @@ request.onerror = function (event) {
 
 function saveRecord(record) {
   const transaction = db.transaction(["new_budget"], "readwrite");
-  const store = transaction.objectStore("pending");
+  const store = transaction.objectStore("new_budget");
 
   store.add(record);
 }
 
-function checkDatabase() {
-  const transaction = db.transaction(["pending"], "readwrite");
-  const store = transaction.objectStore("pending");
+function uploadBudget() {
+  const transaction = db.transaction(["new_budget"], "readwrite");
+  const store = transaction.objectStore("new_budget");
   const getAll = store.getAll();
 
   getAll.onsuccess = function () {
@@ -53,8 +53,8 @@ function checkDatabase() {
         })
         .then(() => {
           // delete records if successful
-          const transaction = db.transaction(["pending"], "readwrite");
-          const store = transaction.objectStore("pending");
+          const transaction = db.transaction(["new_budget"], "readwrite");
+          const store = transaction.objectStore("new_budget");
           store.clear();
         });
     }
@@ -62,4 +62,4 @@ function checkDatabase() {
 }
 
 // listen for app coming back online
-window.addEventListener("online", checkDatabase);
+window.addEventListener("online", uploadBudget);
