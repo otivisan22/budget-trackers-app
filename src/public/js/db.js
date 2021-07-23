@@ -1,3 +1,6 @@
+let db;
+const request = indexedDB.open("budget", 1);
+
 const indexedDB =
   window.indexedDB ||
   window.mozIndexedDB ||
@@ -5,20 +8,17 @@ const indexedDB =
   window.msIndexedDB ||
   window.shimIndexedDB;
 
-let db;
-const request = indexedDB.open("budget", 1);
-
-request.onupgradeneeded = ({ target }) => {
-  let db = target.result;
-  db.createObjectStore("pending", { autoIncrement: true });
+request.onupgradeneeded = function (event) {
+  const db = event.target.result;
+  db.createObjectStore("new_budget", { autoIncrement: true });
 };
 
-request.onsuccess = ({ target }) => {
-  db = target.result;
+request.onsuccess = function (event) {
+  db = event.target.result;
 
   // check if app is online before reading from db
   if (navigator.onLine) {
-    checkDatabase();
+    uploadBudget();
   }
 };
 
@@ -27,7 +27,7 @@ request.onerror = function (event) {
 };
 
 function saveRecord(record) {
-  const transaction = db.transaction(["pending"], "readwrite");
+  const transaction = db.transaction(["new_budget"], "readwrite");
   const store = transaction.objectStore("pending");
 
   store.add(record);
