@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
     "lite-server": "lite-server"
   },
   "repository": {
@@ -25,5 +26,8 @@
     "manifest.json": "^1.2.0",
     "mongoose": "^5.13.3",
     "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
   }
 }
