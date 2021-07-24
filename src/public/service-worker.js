@@ -3,8 +3,8 @@ const DATA_CACHE_NAME = "data-cache-v1";
 
 var urlsToCache = [
   "/",
-  "/db.js",
-  "/index.js",
+  "js/db.js",
+  "js/index.js",
   "/manifest.json",
   "/styles.css",
   "/icons/icon-192x192.png",

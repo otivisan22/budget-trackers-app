@@ -1,6 +1,3 @@
-let db;
-const request = indexedDB.open("budget", 1);
-
 const indexedDB =
   window.indexedDB ||
   window.mozIndexedDB ||
@@ -8,17 +5,20 @@ const indexedDB =
   window.msIndexedDB ||
   window.shimIndexedDB;
 
-request.onupgradeneeded = function (event) {
-  const db = event.target.result;
-  db.createObjectStore("new_budget", { autoIncrement: true });
+let db;
+const request = indexedDB.open("budget", 1);
+
+request.onupgradeneeded = ({ target }) => {
+  let db = target.result;
+  db.createObjectStore("pending", { autoIncrement: true });
 };
 
-request.onsuccess = function (event) {
-  db = event.target.result;
+request.onsuccess = ({ target }) => {
+  db = target.result;
 
   // check if app is online before reading from db
   if (navigator.onLine) {
-    uploadBudget();
+    checkDatabase();
   }
 };
 
@@ -27,15 +27,15 @@ request.onerror = function (event) {
 };
 
 function saveRecord(record) {
-  const transaction = db.transaction(["new_budget"], "readwrite");
-  const store = transaction.objectStore("new_budget");
+  const transaction = db.transaction(["pending"], "readwrite");
+  const store = transaction.objectStore("pending");
 
   store.add(record);
 }
 
-function uploadBudget() {
-  const transaction = db.transaction(["new_budget"], "readwrite");
-  const store = transaction.objectStore("new_budget");
+function checkDatabase() {
+  const transaction = db.transaction(["pending"], "readwrite");
+  const store = transaction.objectStore("pending");
   const getAll = store.getAll();
 
   getAll.onsuccess = function () {
@@ -53,8 +53,8 @@ function uploadBudget() {
         })
         .then(() => {
           // delete records if successful
-          const transaction = db.transaction(["new_budget"], "readwrite");
-          const store = transaction.objectStore("new_budget");
+          const transaction = db.transaction(["pending"], "readwrite");
+          const store = transaction.objectStore("pending");
           store.clear();
         });
     }
@@ -62,4 +62,4 @@ function uploadBudget() {
 }
 
 // listen for app coming back online
-window.addEventListener("online", uploadBudget);
+window.addEventListener("online", checkDatabase);
