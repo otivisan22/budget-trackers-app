@@ -4,7 +4,6 @@
 
 - [Project Link](#project-link)
 - [Getting started](#getting-started)
-- [Set up the database](#set-up-the-database)
 - [Description](#description)
 - [What did we do?](#what-did-we-do)
 - [Running the project](#running-the-project)
@@ -19,16 +18,6 @@ Click [here](https://whispering-crag-95188.herokuapp.com/) to view the project o
     $ git clone https://github.com/otivisan22/budget-trackers/app
     $ cd budget-tracker
     $ npm i
-
-## Set up the database
-
-In Robot 3T Workbench
-
-```
-DROP DATABASE IF EXISTS workout;
-
-CREATE DATABASE workout;
-```
 
 ## Description
 
@@ -50,13 +39,13 @@ Don't forget to code for fun :rocket: !
 ## Running the project
 
 ```
-$ npm run seed
+$ npm init
 
-$ npm run dev
+$ npm run start
 ```
 
 ## Screenshots
 
-![screenshots1](src/models/public/icons/images/image1.PNG)
-![screenshots2](src/public/images/image2.png/)
-![screenshots3](src/public/images/image3.png/)
+![screenshots1](src/models/../public/icons/image1.png)
+![screenshots2](src/models/../public/icons/image2.png)
+![screenshots3](src/models/../public/icons/image3.png)
